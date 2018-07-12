@@ -53,9 +53,13 @@ describe("vDOM implementation", () => {
       // Teardown
     });
 
-    function hasChildren(element) {
-      return Boolean(element.children.length);
-    }
+    it("should return a object of props", () => {
+      // Setup
+      // Exercise
+      // Assert
+      expect(VDOM.props).to.be.an("object");
+      // Teardown
+    });
 
     it("should return an array of children", () => {
       // Setup
@@ -64,6 +68,10 @@ describe("vDOM implementation", () => {
       expect(VDOM.children).to.be.an("array");
       // Teardown
     });
+
+    function hasChildren(element) {
+      return Boolean(element.children.length);
+    }
 
     it("should have objects as children", () => {
       // Setup
@@ -77,35 +85,44 @@ describe("vDOM implementation", () => {
       // Teardown
     });
 
-    it("should return a object of props", () => {
-      // Setup
-      // Exercise
-      // Assert
-      expect(VDOM.props).to.be.an("object");
-      // Teardown
-    });
-
     it("should return an array of grandchildren objects", () => {
       // Setup
       // Exercise
       // Assert
-      expect(VDOM).to.be.true;
+      if (Array.isArray(VDOM.children)) {
+        if (hasChildren(VDOM)) {
+          VDOM.children.forEach((child) => {
+            if (hasChildren(child)) {
+              child.children.forEach((grandchild) => {
+                expect(grandchild).to.be.an("object");
+              });
+            }
+          });
+        }
+      }
       // Teardown
     });
 
     it("should return an array of great-grandchildren objects", () => {
       // maybe you need to edit the seed elements above a little for this one
       // Setup
-      let hasChildren = VDOM.children.length;
-      let hasGrandchildren;
       // Exercise
       // Assert
-      if (hasChildren) {
-        for (let i = 0; i < hasChildren; i++) {
-          expect(VDOM.children[i]).to.be.an("object");
+      if (Array.isArray(VDOM.children)) {
+        if (hasChildren(VDOM)) {
+          VDOM.children.forEach((child) => {
+            if (hasChildren(child)) {
+              child.children.forEach((grandchild) => {
+                if (hasChildren(grandchild)) {
+                  grandchild.children.forEach((gGrandchild) => {
+                    expect(gGrandchild).to.be.an("object");
+                  });
+                }
+              });
+            }
+          });
         }
-      }
-      // Teardown
+      } // Teardown
     });
 
     it("should have a string value to represent a text node when given a string (aka text element)", () => {});
