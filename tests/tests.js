@@ -197,6 +197,9 @@ describe("vDOM implementation", () => {
       // Assert
       let childNodeArray = Array.from(element.childNodes);
       expect(childNodeArray[0] instanceof HTMLElement).to.be.true;
+      expect(childNodeArray[1] instanceof HTMLElement).to.be.true;
+      expect(childNodeArray[2] instanceof Text).to.be.true;
+
       // firstNode should.be.an.element;
       // secondNode should.be.an.element;
       // thirdNode should.be.an.textElement;
