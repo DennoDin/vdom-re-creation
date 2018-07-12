@@ -1,18 +1,15 @@
 require("jsdom-global")();
 const { expect } = require("chai");
-const {
-  createVDOM,
-  createElement,
-  changed,
-  updateElement,
-} = require("../solution");
+const { createVDOM, createElement, changed, updateElement } = require("../app");
 
 describe("vDOM implementation", () => {
   let aProps, divElement, spanElement, textElement, seedElements;
 
   beforeEach(() => {
     // here are some test elements (aka seed) to help you get started
-    aProps = { href: "https://codechrysalis.io" };
+    aProps = {
+      href: "https://codechrysalis.io",
+    };
     divElement = createVDOM("div", null, "text node", createVDOM("img"));
     spanElement = createVDOM("span");
     textElement = "Click Me";
@@ -28,17 +25,57 @@ describe("vDOM implementation", () => {
   // we have some spec titles to help you get started
 
   describe("createVDOM function", () => {
-    it("should have a function called 'createVDOM'", () => {});
+    it("should have a function called 'createVDOM'", () => {
+      expect(createVDOM).to.be.a("function");
+    });
 
-    it("should return an object with type, props, and children properties", () => {});
+    it("should return an object with type, props, and children properties", () => {
+      // Setup
+      // Exercise
+      let properties = createVDOM();
+      // Assert
+      expect(properties).to.haveOwnProperty("type");
+      expect(properties).to.haveOwnProperty("props");
+      expect(properties).to.haveOwnProperty("children");
+      // Teardown
+    });
 
-    it("should return a string for type", () => {});
+    it("should return a string for type", () => {
+      // Setup
+      // Exercise
+      let properties = createVDOM();
+      // Assert
+      expect(properties.type).to.be.a("string");
+      // Teardown
+    });
 
-    it("should return an array of children objects", () => {});
+    it("should return an array of children objects", () => {
+      // Setup
+      // Exercise
+      let properties = createVDOM();
+      // Assert
+      expect(Array.isArray(properties.children)).to.be.true;
+      expect(properties.children[0]).to.be.an("object");
+      // Teardown
+    });
 
-    it("should return a object of props", () => {});
+    it("should return a object of props", () => {
+      // Setup
+      // Exercise
+      let properties = createVDOM();
+      // Assert
+      expect(properties).to.be.true;
+      // Teardown
+    });
 
-    it("should return an array of grandchildren objects", () => {});
+    it("should return an array of grandchildren objects", () => {
+      // Setup
+      // Exercise
+      let properties = createVDOM();
+      // Assert
+      expect(properties).to.be.true;
+      // Teardown
+    });
 
     it("should return an array of great-grandchildren objects", () => {
       // maybe you need to edit the seed elements above a little for this one
@@ -96,7 +133,10 @@ describe("vDOM implementation", () => {
     let target = document.getElementById("tes-div");
     let oldNode = createVDOM(
       "div",
-      { id: "tes-div", style: "display: none;" },
+      {
+        id: "tes-div",
+        style: "display: none;",
+      },
       createVDOM("a"),
       createVDOM("p", null, createVDOM("font"))
     );
@@ -148,7 +188,10 @@ describe("vDOM implementation", () => {
     it("should delete old nodes", () => {
       let nodeRemoveFromMiddle = createVDOM(
         "div",
-        { id: "tes-div", style: "display: none;" },
+        {
+          id: "tes-div",
+          style: "display: none;",
+        },
         createVDOM("p", null, createVDOM("font"))
       );
 
@@ -251,7 +294,13 @@ describe("vDOM implementation", () => {
           style: "display: none;",
         },
         createVDOM("a"),
-        createVDOM("p", { class: "baz" }, createVDOM("font"))
+        createVDOM(
+          "p",
+          {
+            class: "baz",
+          },
+          createVDOM("font")
+        )
       );
 
       updateElement(target, newAttributesAddToChild, oldNode);
