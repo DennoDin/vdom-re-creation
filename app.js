@@ -9,8 +9,19 @@ function createVDOM(type = "", props = {}, ...children) {
 
 function createElement(node) {
   let newElement = document.createElement(node.type);
-  let newChild = document.createElement("a");
-  newElement.appendChild(newChild);
+  // let newChild = document.createElement("a");
+  if (node.children && node.children.length > 0) {
+    node.children.forEach((child) => {
+      let newChild;
+      if (typeof child === "string") {
+        newChild = document.createTextNode(child);
+      } else {
+        newChild = document.createElement(child.type);
+      }
+      newElement.appendChild(newChild);
+    });
+  }
+  // newElement.appendChild(newChild);
   return newElement;
 }
 
