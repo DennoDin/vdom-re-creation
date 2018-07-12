@@ -2,19 +2,7 @@ function createVDOM(type = "", props = {}, ...children) {
   let dummy = {
     type: type,
     props: props,
-    children: [
-      {
-        type: "",
-        props: {},
-        children: [
-          {
-            type: "",
-            props: {},
-            children: [{}],
-          },
-        ],
-      },
-    ],
+    children: children,
   };
   return dummy;
 }
