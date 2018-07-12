@@ -193,27 +193,34 @@ describe("vDOM implementation", () => {
       |* ...ok, it obviously is, so take this clue into account.
       */
       // Setup
+      let childNodeArray = Array.from(element.childNodes);
       // Exercise
       // Assert
-      let childNodeArray = Array.from(element.childNodes);
       expect(childNodeArray[0] instanceof HTMLElement).to.be.true;
       expect(childNodeArray[1] instanceof HTMLElement).to.be.true;
       expect(childNodeArray[2] instanceof Text).to.be.true;
-
-      // firstNode should.be.an.element;
-      // secondNode should.be.an.element;
-      // thirdNode should.be.an.textElement;
-
-      // console.log(element);
-      // console.log(seedElements);
       // Teardown
     });
 
     it("should convert grand childNodes to HTML", () => {
       // see the clue above for this
+      // Setup
+      let childNodeArray = Array.from(element.childNodes);
+      let grandchildNodeArray = Array.from(childNodeArray[0].childNodes);
+      // Exercise
+      // Assert
+      expect(grandchildNodeArray[0] instanceof Text).to.be.true;
+      expect(grandchildNodeArray[1] instanceof HTMLElement).to.be.true;
+      // Teardown
     });
 
-    it("should convert props to attributes", () => {});
+    it("should convert props to attributes", () => {
+      // Setup
+      // Exercise
+      // Assert
+      expect(element.getAttribute("href")).to.equal("https://codechrysalis.io");
+      // Teardown
+    });
   });
 
   describe("updateElement function", () => {
