@@ -3,7 +3,12 @@ const { expect } = require("chai");
 const { createVDOM, createElement, changed, updateElement } = require("../app");
 
 describe("vDOM implementation", () => {
-  let aProps, divElement, spanElement, textElement, seedElements;
+  let aProps,
+    divElement,
+    spanElement,
+    textElement,
+    seedElements,
+    grandSeedElements;
 
   beforeEach(() => {
     // here are some test elements (aka seed) to help you get started
@@ -20,6 +25,7 @@ describe("vDOM implementation", () => {
       spanElement,
       textElement
     );
+    grandSeedElements = createVDOM("gse", aProps, seedElements);
   });
 
   // we have some spec titles to help you get started
@@ -114,9 +120,9 @@ describe("vDOM implementation", () => {
       // Setup
       // Exercise
       // Assert
-      if (Array.isArray(seedElements.children)) {
-        if (hasChildren(seedElements)) {
-          seedElements.children
+      if (Array.isArray(grandSeedElements.children)) {
+        if (hasChildren(grandSeedElements)) {
+          grandSeedElements.children
             .filter((child) => {
               return typeof child === "object";
             })
@@ -143,9 +149,23 @@ describe("vDOM implementation", () => {
       } // Teardown
     });
 
-    it("should have a string value to represent a text node when given a string (aka text element)", () => {});
+    it("should have a string value to represent a text node when given a string (aka text element)", () => {
+      // Setup
+      // Exercise
+      // Assert
+      if (Array.isArray(divElement.children)) {
+        if (hasChildren(divElement)) {
+          divElement.children
+            .filter((child) => {
+              return typeof child === "string";
+            })
+            .forEach((child) => {
+              expect(child).to.be.a("string");
+            });
+        }
+      } // Teardown
+    });
   });
-
   describe("createElement function", () => {
     let result;
 
