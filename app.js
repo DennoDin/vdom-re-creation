@@ -8,21 +8,24 @@ function createVDOM(type = "", props = {}, ...children) {
 }
 
 function createElement(node) {
-  let newElement = document.createElement(node.type);
-  // let newChild = document.createElement("a");
-  if (node.children && node.children.length > 0) {
-    node.children.forEach((child) => {
-      let newChild;
-      if (typeof child === "string") {
-        newChild = document.createTextNode(child);
-      } else {
-        newChild = document.createElement(child.type);
-      }
-      newElement.appendChild(newChild);
-    });
+  function recurse(childNode) {
+    let newRecurseChild = document.createElement(childNode.type);
+    if (childNode.children && childNode.children.length > 0) {
+      childNode.children.forEach((child) => {
+        let newChild;
+        if (typeof child === "string") {
+          newChild = document.createTextNode(child);
+        } else {
+          newChild = recurse(child);
+        }
+        newRecurseChild.appendChild(newChild);
+      });
+    }
+    return newRecurseChild;
   }
-  // newElement.appendChild(newChild);
-  return newElement;
+
+  let masterElement = recurse(node);
+  return masterElement;
 }
 
 function changed(node1, node2) {
