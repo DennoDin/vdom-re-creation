@@ -10,6 +10,12 @@ function createVDOM(type = "", props = {}, ...children) {
 function createElement(node) {
   function recurse(childNode) {
     let newRecurseChild = document.createElement(childNode.type);
+    if (childNode.props) {
+      let propKey = Object.keys(childNode.props);
+      if (propKey.length > 0) {
+        newRecurseChild.setAttribute(propKey[0], childNode.props[propKey[0]]);
+      }
+    }
     if (childNode.children && childNode.children.length > 0) {
       childNode.children.forEach((child) => {
         let newChild;
