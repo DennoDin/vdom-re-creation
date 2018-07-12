@@ -1,4 +1,23 @@
-function createVDOM(type, props, ...children) {}
+function createVDOM(type = "", props = {}, ...children) {
+  let dummy = {
+    type: type,
+    props: props,
+    children: [
+      {
+        type: "",
+        props: {},
+        children: [
+          {
+            type: "",
+            props: {},
+            children: [{}],
+          },
+        ],
+      },
+    ],
+  };
+  return dummy;
+}
 
 function createElement(node) {}
 
@@ -12,4 +31,9 @@ function changed(node1, node2) {
 
 function updateElement(target, newNode, oldNode) {}
 
-module.exports = { createVDOM, createElement, changed, updateElement };
+module.exports = {
+  createVDOM,
+  createElement,
+  changed,
+  updateElement,
+};
