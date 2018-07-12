@@ -25,6 +25,12 @@ describe("vDOM implementation", () => {
   // we have some spec titles to help you get started
 
   describe("createVDOM function", () => {
+    let VDOM;
+    before(() => {
+      // Setup
+      VDOM = createVDOM();
+    });
+
     it("should have a function called 'createVDOM'", () => {
       expect(createVDOM).to.be.a("function");
     });
@@ -32,48 +38,48 @@ describe("vDOM implementation", () => {
     it("should return an object with type, props, and children properties", () => {
       // Setup
       // Exercise
-      let properties = createVDOM();
       // Assert
-      expect(properties).to.haveOwnProperty("type");
-      expect(properties).to.haveOwnProperty("props");
-      expect(properties).to.haveOwnProperty("children");
+      expect(VDOM).to.haveOwnProperty("type");
+      expect(VDOM).to.haveOwnProperty("props");
+      expect(VDOM).to.haveOwnProperty("children");
       // Teardown
     });
 
     it("should return a string for type", () => {
       // Setup
       // Exercise
-      let properties = createVDOM();
       // Assert
-      expect(properties.type).to.be.a("string");
+      expect(VDOM.type).to.be.a("string");
       // Teardown
     });
 
     it("should return an array of children objects", () => {
       // Setup
+      let hasChildren = VDOM.children.length;
       // Exercise
-      let properties = createVDOM();
       // Assert
-      expect(Array.isArray(properties.children)).to.be.true;
-      expect(properties.children[0]).to.be.an("object");
+      expect(Array.isArray(VDOM.children)).to.be.true;
+      if (hasChildren) {
+        for (let i = 0; i < hasChildren; i++) {
+          expect(VDOM.children[i]).to.be.an("object");
+        }
+      }
       // Teardown
     });
 
     it("should return a object of props", () => {
       // Setup
       // Exercise
-      let properties = createVDOM();
       // Assert
-      expect(properties).to.be.true;
+      expect(VDOM.props).to.be.an("object");
       // Teardown
     });
 
     it("should return an array of grandchildren objects", () => {
       // Setup
       // Exercise
-      let properties = createVDOM();
       // Assert
-      expect(properties).to.be.true;
+      expect(VDOM).to.be.true;
       // Teardown
     });
 
