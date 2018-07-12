@@ -7,7 +7,12 @@ function createVDOM(type = "", props = {}, ...children) {
   return dummy;
 }
 
-function createElement(node) {}
+function createElement(node) {
+  let newElement = document.createElement(node.type);
+  let newChild = document.createElement("a");
+  newElement.appendChild(newChild);
+  return newElement;
+}
 
 function changed(node1, node2) {
   return (
