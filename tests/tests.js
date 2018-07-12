@@ -25,12 +25,6 @@ describe("vDOM implementation", () => {
   // we have some spec titles to help you get started
 
   describe("createVDOM function", () => {
-    let VDOM;
-    before(() => {
-      // Setup
-      VDOM = createVDOM();
-    });
-
     it("should have a function called 'createVDOM'", () => {
       expect(createVDOM).to.be.a("function");
     });
@@ -39,9 +33,9 @@ describe("vDOM implementation", () => {
       // Setup
       // Exercise
       // Assert
-      expect(VDOM).to.haveOwnProperty("type");
-      expect(VDOM).to.haveOwnProperty("props");
-      expect(VDOM).to.haveOwnProperty("children");
+      expect(seedElements).to.haveOwnProperty("type");
+      expect(seedElements).to.haveOwnProperty("props");
+      expect(seedElements).to.haveOwnProperty("children");
       // Teardown
     });
 
@@ -49,7 +43,7 @@ describe("vDOM implementation", () => {
       // Setup
       // Exercise
       // Assert
-      expect(VDOM.type).to.be.a("string");
+      expect(seedElements.type).to.be.a("string");
       // Teardown
     });
 
@@ -57,7 +51,7 @@ describe("vDOM implementation", () => {
       // Setup
       // Exercise
       // Assert
-      expect(VDOM.props).to.be.an("object");
+      expect(seedElements.props).to.be.an("object");
       // Teardown
     });
 
@@ -65,7 +59,7 @@ describe("vDOM implementation", () => {
       // Setup
       // Exercise
       // Assert
-      expect(VDOM.children).to.be.an("array");
+      expect(seedElements.children).to.be.an("array");
       // Teardown
     });
 
@@ -77,10 +71,14 @@ describe("vDOM implementation", () => {
       // Setup
       // Exercise
       // Assert
-      if (hasChildren(VDOM)) {
-        VDOM.children.forEach((child) => {
-          expect(child).to.be.an("object");
-        });
+      if (hasChildren(seedElements)) {
+        seedElements.children
+          .filter((child) => {
+            return typeof child === "object";
+          })
+          .forEach((child) => {
+            expect(child).to.be.an("object");
+          });
       }
       // Teardown
     });
@@ -89,15 +87,23 @@ describe("vDOM implementation", () => {
       // Setup
       // Exercise
       // Assert
-      if (Array.isArray(VDOM.children)) {
-        if (hasChildren(VDOM)) {
-          VDOM.children.forEach((child) => {
-            if (hasChildren(child)) {
-              child.children.forEach((grandchild) => {
-                expect(grandchild).to.be.an("object");
-              });
-            }
-          });
+      if (Array.isArray(seedElements.children)) {
+        if (hasChildren(seedElements)) {
+          seedElements.children
+            .filter((child) => {
+              return typeof child === "object";
+            })
+            .forEach((child) => {
+              if (hasChildren(child)) {
+                child.children
+                  .filter((grandchild) => {
+                    return typeof grandchild === "object";
+                  })
+                  .forEach((grandchild) => {
+                    expect(grandchild).to.be.an("object");
+                  });
+              }
+            });
         }
       }
       // Teardown
@@ -108,19 +114,31 @@ describe("vDOM implementation", () => {
       // Setup
       // Exercise
       // Assert
-      if (Array.isArray(VDOM.children)) {
-        if (hasChildren(VDOM)) {
-          VDOM.children.forEach((child) => {
-            if (hasChildren(child)) {
-              child.children.forEach((grandchild) => {
-                if (hasChildren(grandchild)) {
-                  grandchild.children.forEach((gGrandchild) => {
-                    expect(gGrandchild).to.be.an("object");
+      if (Array.isArray(seedElements.children)) {
+        if (hasChildren(seedElements)) {
+          seedElements.children
+            .filter((child) => {
+              return typeof child === "object";
+            })
+            .forEach((child) => {
+              if (hasChildren(child)) {
+                child.children
+                  .filter((grandchild) => {
+                    return typeof grandchild === "object";
+                  })
+                  .forEach((grandchild) => {
+                    if (hasChildren(grandchild)) {
+                      grandchild.children
+                        .filter((gGrandchild) => {
+                          return typeof gGrandchild === "object";
+                        })
+                        .forEach((gGrandchild) => {
+                          expect(gGrandchild).to.be.an("object");
+                        });
+                    }
                   });
-                }
-              });
-            }
-          });
+              }
+            });
         }
       } // Teardown
     });
