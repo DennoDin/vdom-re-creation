@@ -166,12 +166,14 @@ describe("vDOM implementation", () => {
       } // Teardown
     });
   });
-  describe("createElement function", () => {
-    let result;
+
+  describe.only("createElement function", () => {
+    let element;
 
     beforeEach(() => {
       // create your own seed elements or use the ones created above!
-      result = createElement(/* your seed elements */);
+      // Setup
+      element = createElement(seedElements);
     });
 
     it("should have a function called createElement", () => {
@@ -179,7 +181,8 @@ describe("vDOM implementation", () => {
     });
 
     it("should return an HTML Element", () => {
-      expect(result.tagName).to.equal("A");
+      // expect(element.tagName).to.equal("A");
+      expect(element instanceof HTMLElement).to.be.true;
     });
 
     it("should convert childNodes to HTML", () => {
@@ -189,6 +192,18 @@ describe("vDOM implementation", () => {
       |* This may be important for testing...
       |* ...ok, it obviously is, so take this clue into account.
       */
+      // Setup
+      // Exercise
+      // Assert
+      let childNodeArray = Array.from(element.childNodes);
+      expect(childNodeArray[0] instanceof HTMLElement).to.be.true;
+      // firstNode should.be.an.element;
+      // secondNode should.be.an.element;
+      // thirdNode should.be.an.textElement;
+
+      // console.log(element);
+      // console.log(seedElements);
+      // Teardown
     });
 
     it("should convert grand childNodes to HTML", () => {
