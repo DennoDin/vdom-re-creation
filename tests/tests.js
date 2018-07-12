@@ -53,16 +53,26 @@ describe("vDOM implementation", () => {
       // Teardown
     });
 
-    it("should return an array of children objects", () => {
+    function hasChildren(element) {
+      return Boolean(element.children.length);
+    }
+
+    it("should return an array of children", () => {
       // Setup
-      let hasChildren = VDOM.children.length;
       // Exercise
       // Assert
-      expect(Array.isArray(VDOM.children)).to.be.true;
-      if (hasChildren) {
-        for (let i = 0; i < hasChildren; i++) {
-          expect(VDOM.children[i]).to.be.an("object");
-        }
+      expect(VDOM.children).to.be.an("array");
+      // Teardown
+    });
+
+    it("should have objects as children", () => {
+      // Setup
+      // Exercise
+      // Assert
+      if (hasChildren(VDOM)) {
+        VDOM.children.forEach((child) => {
+          expect(child).to.be.an("object");
+        });
       }
       // Teardown
     });
@@ -85,6 +95,17 @@ describe("vDOM implementation", () => {
 
     it("should return an array of great-grandchildren objects", () => {
       // maybe you need to edit the seed elements above a little for this one
+      // Setup
+      let hasChildren = VDOM.children.length;
+      let hasGrandchildren;
+      // Exercise
+      // Assert
+      if (hasChildren) {
+        for (let i = 0; i < hasChildren; i++) {
+          expect(VDOM.children[i]).to.be.an("object");
+        }
+      }
+      // Teardown
     });
 
     it("should have a string value to represent a text node when given a string (aka text element)", () => {});
