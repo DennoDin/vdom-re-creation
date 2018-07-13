@@ -167,7 +167,7 @@ describe("vDOM implementation", () => {
     });
   });
 
-  describe.only("createElement function", () => {
+  describe("createElement function", () => {
     let element;
 
     beforeEach(() => {
@@ -223,7 +223,25 @@ describe("vDOM implementation", () => {
     });
   });
 
-  describe("updateElement function", () => {
+  describe.only("updateElement function", () => {
+    let target, oldNode;
+
+    before(() => {
+      let newChild = document.createElement("div");
+      newChild.setAttribute("id", "tes-div");
+      document.body.appendChild(newChild);
+      target = document.getElementById("tes-div");
+      oldNode = createVDOM(
+        "div",
+        {
+          id: "tes-div",
+          style: "display: none;",
+        },
+        createVDOM("a"),
+        createVDOM("p", null, createVDOM("font"))
+      );
+    });
+
     function resetParent() {
       target.innerHTML = "";
       const childA = document.createElement("a");
@@ -236,17 +254,6 @@ describe("vDOM implementation", () => {
     beforeEach(() => {
       resetParent();
     });
-
-    let target = document.getElementById("tes-div");
-    let oldNode = createVDOM(
-      "div",
-      {
-        id: "tes-div",
-        style: "display: none;",
-      },
-      createVDOM("a"),
-      createVDOM("p", null, createVDOM("font"))
-    );
 
     it("updateElement should be a function", () => {
       expect(updateElement).to.be.a("function");
