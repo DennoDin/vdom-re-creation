@@ -42,7 +42,13 @@ function changed(node1, node2) {
   );
 }
 
-function updateElement(target, newNode, oldNode) {}
+function updateElement(target, newNode, oldNode) {
+  // compare newNode to oldNode
+  // write differences to newNode
+  // copy newNode to target
+  let newElement = createElement("span");
+  target.appendChild(newElement);
+}
 
 module.exports = {
   createVDOM,
