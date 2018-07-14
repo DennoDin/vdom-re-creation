@@ -89,7 +89,7 @@ function getDiff(newNode, oldNode) {
         if (i < oldNode.children.length) {
           diff.add.children.push(null);
         } else {
-          diff.add.children.push(newNode.children[i]);
+          diff.add.children.push({ add: newNode.children[i] });
         }
         // for(let i = oldNode.children.length; i < newNode.children.length; i++){
         // diff.add.children[i] = ;
@@ -104,13 +104,12 @@ function getDiff(newNode, oldNode) {
 
     // else
 
-    let iIterator = Math.min(newNode.children.length, oldNode.children.length);
-    for (let i = 0; i < iIterator; i++) {
-      // if(changed(newNode.children[i], oldNode.children[i])){
-      diff.add.children.push(getDiff(newNode.children[i], oldNode.children[i]));
-
-      // }
-    }
+    // let iIterator = Math.min(newNode.children.length, oldNode.children.length);
+    // for (let i = 0; i < iIterator; i++) {
+    //   // if(changed(newNode.children[i], oldNode.children[i])){
+    //     diff.add.children.push(getDiff(newNode.children[i], oldNode.children[i]));
+    //   // }
+    // }
   }
 
   return diff;
@@ -122,17 +121,20 @@ function applyUpdate(target, diff) {
       target.setAttribute(key, diff.add.props[key]);
     }
   }
-  // if (diff.children) {
-  //   diff.children.forEach((child, i) => {
-  //     let newChild;
-  //     if (typeof child === "string") {
-  //       newChild = document.createTextNode(child);
-  //     } else {
-  //       newChild = applyUpdate(target.children[i], child);
-  //     }
-  //     target.appendChild(newChild);
-  //   });
-  // }
+  if (diff.add.children) {
+    diff.add.children.forEach((child, i) => {
+      let newChild;
+      if (typeof child === "string") {
+        newChild = document.createTextNode(child);
+      } else if (child) {
+        let newbornChild = document.createElement(child.add.type);
+        newChild = applyUpdate(newbornChild, child);
+      }
+      if (newChild) {
+        target.appendChild(newChild);
+      }
+    });
+  }
   return target;
 }
 
