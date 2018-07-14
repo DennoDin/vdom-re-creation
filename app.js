@@ -43,43 +43,65 @@ function changed(node1, node2) {
 }
 
 function getDiff(newNode, oldNode) {
-  let diff = {};
+  let diff = {
+    add: {},
+    remove: {},
+  };
 
-  // console.log(changed(newNode, oldNode));
-  // console.log(newNode.props);
-  // console.log(oldNode.props);
-  // for(key in newNode.props){
-  if (!newNode.props || Object.entries(newNode.props) > 0) {
-    diff.props = {};
+  // TYPE
+  if (changed(newNode, oldNode)) {
+    console.log("different type, do something!");
+  }
+
+  // PROPS
+  if (newNode.props && Object.entries(newNode.props).length > 0) {
+    diff.add.props = {};
     let newPropEntries = Object.entries(newNode.props);
+    // let oldPropEntries
 
     Object.keys(newNode.props).forEach((key) => {
       if (changed(newNode.props[key], oldNode.props[key])) {
-        diff.props[key] = newNode.props[key];
+        diff.add.props[key] = newNode.props[key];
       }
-      console.log(key);
-      // console.log(newNode.props[key], oldNode.props[key]);
-      // console.log(changed(newNode.props[key], oldNode.props[key]));
     });
   }
 
-  // }
-  // console.log(changed(newNode.props, oldNode.props));
+  /*
+  newNode = 
+  child1 div
+  child2 a
+  child3 span
 
-  if (newNode.children && oldNode.children) {
-    let iIterator = Math.min(newNode.children.length, oldNode.children.length);
-    for (let i = 0; i < iIterator; i++) {
-      getDiff(newNode.children[i], oldNode.children[i]);
-    }
-  }
+  oldNode = 
+  child1 div
+  child2 a
+  */
 
-  // if(newNode.children && oldNode.children){
-  //   for(let nIterator = 0; nIterator < newNode.children.length; nIterator++){
-  //     for(let oIterator = 0; oIterator < oldNode.children.length; oIterator++){
-  //       if(nIterator === oIterator){
-  //         diff(newNode.children[nIterator], oldNode.chidlren[oIterator]);
-  //       }
+  // CHILDREN
+  // if (newNode.children && oldNode.children) {
+  //   if (newNode.children.length > oldNode.children.length){
+  //     diff.add.children = [];
+  //     let extraChildren = newNode.children.length - oldNode.children.length;
+  //     for(let i = oldNode.children.length; i < newNode.children.length; i++){
+  //       diff.add.children.push(newNode.children[i]);
   //     }
+  //     // diff.add.children =
+  //     // find out what we need to add.
+  //     // figure out where to add it (the different node).
+  //   } else if(newNode.children.length < oldNode.children.length){
+  //     diff.remove.children = [];
+  //     // find out what to remove
+  //     // figure out where to remove the node
+  //   }
+
+  //   // else
+
+  //   let iIterator = Math.min(newNode.children.length, oldNode.children.length);
+  //   for (let i = 0; i < iIterator; i++) {
+  //     // if(changed(newNode.children[i], oldNode.children[i])){
+  //       diff.add.children.push(getDiff(newNode.children[i], oldNode.children[i]));
+
+  //     // }
   //   }
   // }
 
@@ -87,32 +109,32 @@ function getDiff(newNode, oldNode) {
 }
 
 function applyUpdate(target, diff) {
-  if (diff.props) {
-    for (let key of diff.props) {
-      target.setAttribute(key, diff.props[key]);
+  if (diff.add.props) {
+    for (let key in diff.add.props) {
+      target.setAttribute(key, diff.add.props[key]);
     }
   }
-  if (diff.children) {
-    diff.children.forEach((child) => {
-      let newChild;
-      if (typeof child === "string") {
-        newChild = document.createTextNode(child);
-      } else {
-        newChild = recurse(child);
-      }
-      target.appendChild(newChild);
-    });
-  }
+  // if (diff.children) {
+  //   diff.children.forEach((child, i) => {
+  //     let newChild;
+  //     if (typeof child === "string") {
+  //       newChild = document.createTextNode(child);
+  //     } else {
+  //       newChild = applyUpdate(target.children[i], child);
+  //     }
+  //     target.appendChild(newChild);
+  //   });
+  // }
   return target;
 }
 
 function updateElement(target, newNode, oldNode) {
   // compare newNode to oldNode
   let diff = getDiff(newNode, oldNode);
-  // console.log(diff);
+  console.log(JSON.stringify(diff));
 
   // write differences to newNode
-  // applyUpdate(target, diff);
+  applyUpdate(target, diff);
 
   // append differences to target
   let newElement = createElement("span");
