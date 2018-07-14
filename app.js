@@ -50,7 +50,9 @@ function getDiff(newNode, oldNode) {
 
   // TYPE
   if (changed(newNode, oldNode)) {
-    console.log("different type, do something!");
+    console.log("different type!");
+    diff.add = newNode;
+    diff.remove = oldNode;
   }
 
   // PROPS
@@ -60,7 +62,7 @@ function getDiff(newNode, oldNode) {
     // let oldPropEntries
 
     Object.keys(newNode.props).forEach((key) => {
-      if (changed(newNode.props[key], oldNode.props[key])) {
+      if (oldNode.props && changed(newNode.props[key], oldNode.props[key])) {
         diff.add.props[key] = newNode.props[key];
       }
     });
@@ -78,32 +80,38 @@ function getDiff(newNode, oldNode) {
   */
 
   // CHILDREN
-  // if (newNode.children && oldNode.children) {
-  //   if (newNode.children.length > oldNode.children.length){
-  //     diff.add.children = [];
-  //     let extraChildren = newNode.children.length - oldNode.children.length;
-  //     for(let i = oldNode.children.length; i < newNode.children.length; i++){
-  //       diff.add.children.push(newNode.children[i]);
-  //     }
-  //     // diff.add.children =
-  //     // find out what we need to add.
-  //     // figure out where to add it (the different node).
-  //   } else if(newNode.children.length < oldNode.children.length){
-  //     diff.remove.children = [];
-  //     // find out what to remove
-  //     // figure out where to remove the node
-  //   }
+  diff.add.children = [];
+  diff.remove.children = [];
 
-  //   // else
+  if (newNode.children && oldNode.children) {
+    if (newNode.children.length > oldNode.children.length) {
+      for (let i = 0; i < newNode.children.length; i++) {
+        if (i < oldNode.children.length) {
+          diff.add.children.push(null);
+        } else {
+          diff.add.children.push(newNode.children[i]);
+        }
+        // for(let i = oldNode.children.length; i < newNode.children.length; i++){
+        // diff.add.children[i] = ;
+      }
+      // diff.add.children =
+      // find out what we need to add.
+      // figure out where to add it (the different node).
+    } else if (newNode.children.length < oldNode.children.length) {
+      // find out what to remove
+      // figure out where to remove the node
+    }
 
-  //   let iIterator = Math.min(newNode.children.length, oldNode.children.length);
-  //   for (let i = 0; i < iIterator; i++) {
-  //     // if(changed(newNode.children[i], oldNode.children[i])){
-  //       diff.add.children.push(getDiff(newNode.children[i], oldNode.children[i]));
+    // else
 
-  //     // }
-  //   }
-  // }
+    let iIterator = Math.min(newNode.children.length, oldNode.children.length);
+    for (let i = 0; i < iIterator; i++) {
+      // if(changed(newNode.children[i], oldNode.children[i])){
+      diff.add.children.push(getDiff(newNode.children[i], oldNode.children[i]));
+
+      // }
+    }
+  }
 
   return diff;
 }
