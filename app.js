@@ -42,7 +42,7 @@ function changed(node1, node2) {
   );
 }
 
-function getDiff(newNode, oldNode) {
+/* function getDiff(newNode, oldNode) {
   let diff = {
     add: {},
     remove: {},
@@ -68,7 +68,7 @@ function getDiff(newNode, oldNode) {
     });
   }
 
-  /*
+  
   newNode = 
   child1 div
   child2 a
@@ -77,7 +77,7 @@ function getDiff(newNode, oldNode) {
   oldNode = 
   child1 div
   child2 a
-  */
+ 
 
   // CHILDREN
   diff.add.children = [];
@@ -136,20 +136,48 @@ function applyUpdate(target, diff) {
     });
   }
   return target;
-}
+} */
 
 function updateElement(target, newNode, oldNode) {
-  // compare newNode to oldNode
-  let diff = getDiff(newNode, oldNode);
-  console.log(JSON.stringify(diff));
-
-  // write differences to newNode
-  applyUpdate(target, diff);
-
-  // append differences to target
-  let newElement = createElement("span");
-  target.appendChild(newElement);
+  if (changed(newNode, oldNode)) {
+    console.log("say hi");
+  }
+  if (changed(newNode.props, oldNode.props)) {
+    console.log("props have changed");
+  }
+  if (newNode.children.length > oldNode.children.length) {
+    let newChild;
+    for (
+      let childIter = oldNode.children.length;
+      childIter < newNode.children.length;
+      childIter++
+    ) {
+      newChild = document.createElement(newNode.children[childIter].type);
+      //newChild.setAttribute(newNode.children[]);
+      // if (newNode.children[0].props) {
+      //   let propKey = Object.keys(newNode.children[childIter].props);
+      //   if (propKey.length > 0) {
+      //     newChild.setAttribute(propKey[0], newNode.children[childIter].props[propKey[0]]);
+      //   }
+      // }
+    }
+    target.appendChild(newChild);
+  }
+  for (let childIter = 0; childIter < newNode.children.length; childIter++) {}
+  // const childSpan = document.createElement("SPAN");
+  // target.append(childSpan);
 }
+
+/* compare newNode to oldNode
+let diff = getDiff(newNode, oldNode);
+console.log(JSON.stringify(diff));
+
+write differences to newNode
+applyUpdate(target, diff);
+
+append differences to target
+let newElement = createElement("span");
+target.appendChild(newElement); */
 
 module.exports = {
   createVDOM,
