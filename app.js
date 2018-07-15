@@ -146,7 +146,7 @@ function updateElement(target, newNode, oldNode) {
     console.log("props have changed");
   }
   if (newNode.children.length > oldNode.children.length) {
-    //if newNode has more, we need to add
+    // USED FOR ADDING NODES!
     let newChild;
     let oldNodeIter = 0;
     let targetLength = oldNode.children.length;
@@ -179,10 +179,22 @@ function updateElement(target, newNode, oldNode) {
       // }
     }
     //target.insertBefore(newChild);
+  } else if (newNode.children.length < oldNode.children.length) {
+    // USED FOR REMOVING NODES
+    let referenceOfNode = target.firstChild;
+    for (let childIter = 0; childIter < newNode.children.length; childIter++) {
+      for (let oldIter = 0; oldIter < oldNode.children.length; oldIter++) {
+        if (newNode.children[childIter] === oldNode.children[oldIter]) {
+          referenceOfNode = referenceOfNode.nextSibling;
+          continue;
+        }
+      }
+      if (referenceOfNode !== null) {
+        target.removeChild(referenceOfNode);
+      }
+    }
   }
-  //for (let childIter = 0; childIter < newNode.children.length; childIter++) {}
-  // const childSpan = document.createElement("SPAN");
-  // target.append(childSpan);
+
   console.log("stop!");
 }
 
