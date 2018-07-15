@@ -146,13 +146,30 @@ function updateElement(target, newNode, oldNode) {
     console.log("props have changed");
   }
   if (newNode.children.length > oldNode.children.length) {
+    //if newNode has more, we need to add
     let newChild;
-    for (
-      let childIter = oldNode.children.length;
-      childIter < newNode.children.length;
-      childIter++
-    ) {
-      newChild = document.createElement(newNode.children[childIter].type);
+    let oldNodeIter = 0;
+    let targetLength = oldNode.children.length;
+    let referenceNode = null;
+    for (let childIter = 0; childIter < newNode.children.length; childIter++) {
+      if (
+        childIter >= targetLength ||
+        changed(
+          newNode.children[childIter].type,
+          oldNode.children[oldNodeIter].type
+        )
+      ) {
+        if (oldNode.children[oldNodeIter]) {
+          //CURRENTLY ONLY ADDS AT THE BEGINNING
+          referenceNode =
+            target.firstChild /* (oldNode.children[oldNodeIter].type) */;
+        }
+        newChild = createElement(newNode.children[childIter]);
+        target.insertBefore(newChild, referenceNode);
+        targetLength++;
+      } else {
+        oldNodeIter++;
+      }
       //newChild.setAttribute(newNode.children[]);
       // if (newNode.children[0].props) {
       //   let propKey = Object.keys(newNode.children[childIter].props);
@@ -161,11 +178,12 @@ function updateElement(target, newNode, oldNode) {
       //   }
       // }
     }
-    target.appendChild(newChild);
+    //target.insertBefore(newChild);
   }
-  for (let childIter = 0; childIter < newNode.children.length; childIter++) {}
+  //for (let childIter = 0; childIter < newNode.children.length; childIter++) {}
   // const childSpan = document.createElement("SPAN");
   // target.append(childSpan);
+  console.log("stop!");
 }
 
 /* compare newNode to oldNode
