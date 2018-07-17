@@ -46,47 +46,19 @@ function updateElement(target, newNode, oldNode) {
     parentNode.appendChild(newChild);
   }
   let htmlChild = target.firstChild;
-  for (let childItr = 0; childItr < newNode.children.length; childItr++) {
-    if (childItr > 0) {
+  for (let childItr = 0; childItr < oldNode.children.length; childItr++) {
+    let htmlChildPrev = htmlChild;
+    if (htmlChild) {
       htmlChild = htmlChild.nextSibling;
     }
-    if (newNode.children[childItr]) {
-      if (!oldNode.children[childItr]) {
-        let brandNewChild = createElement(newNode.children[childItr]);
-        target.appendChild(brandNewChild);
-      } else if (newNode.children[childItr] === null) {
-        target.removeChild(htmlChild);
-      } else {
-        updateElement(
-          htmlChild,
-          newNode.children[childItr],
-          oldNode.children[childItr]
-        );
-      }
+    if (htmlChildPrev) {
+      target.removeChild(htmlChildPrev);
     }
   }
-  // if (changed(newNode.props, oldNode.props)) {
-  //   console.log("props have changed");
-  // }
-  // if (newNode.children.length > oldNode.children.length) {
-  //   // USED FOR ADDING NODES!
-  //   let oldNodeIter = 0;
-  //   let targetLength = oldNode.children.length;
-  //   let referenceNode = target.firstChild /* (oldNode.children[oldNodeIter].type) */;
-  //   for (let childIter = 0; childIter < newNode.children.length; childIter++) {
-  //     if (
-  //       childIter >= targetLength ||
-  //       changed(
-  //         newNode.children[childIter].type,
-  //         oldNode.children[oldNodeIter].type
-  //       )
-  //     ) {
-  //       if (typeof newNode.children[childIter] === 'string') {
-  //         newChild = document.createTextNode(newNode.children[childIter]);
-  //       } else {
-  //         newChild = createElement(newNode.children[childIter]);
-
-  //       }
+  for (let childItr = 0; childItr < newNode.children.length; childItr++) {
+    newChild = createElement(newNode.children[childItr]);
+    target.appendChild(newChild);
+  }
 
   //       // if (newNode.children[childIter].props) {
   //       //   let propKey = Object.keys(newNode.children[childIter].props);
@@ -112,25 +84,6 @@ function updateElement(target, newNode, oldNode) {
   //       referenceNode = referenceNode.nextSibling;
   //     }
   //   }
-  // } else if (newNode.children.length < oldNode.children.length) {
-  //   // USED FOR REMOVING NODES
-  //   let referenceOfNode = target.firstChild;
-  //   for (let childIter = 0; childIter < newNode.children.length; childIter++) {
-  //     for (let oldIter = 0; oldIter < oldNode.children.length; oldIter++) {
-  //       if (newNode.children[childIter] === oldNode.children[oldIter]) {
-  //         referenceOfNode = referenceOfNode.nextSibling;
-  //         continue;
-  //       }
-  //     }
-  //     if (referenceOfNode !== null) {
-  //       target.removeChild(referenceOfNode);
-  //     }
-  //   }
-  // }
-
-  // console.log("stop!");
-  // if(target.childNodes[1])
-  //   console.log(target.childNodes[1].childNodes);
 }
 
 module.exports = {
